@@ -10,6 +10,26 @@ Additionally, you'd need to change the `src/Makefile` to build `lua` and
 
 `src/noio` is a test program that checks the no-IO setup.
 
+Users of the no-IO version should probably implement these macros to provide
+output for their no-IO system, in `lauxlib.h`. They are noop by default.
+
+```c
+/* print a string */
+#if !defined(lua_writestring)
+#define lua_writestring(s,l) {}
+#endif
+
+/* print a newline and flush the output */
+#if !defined(lua_writeline)
+#define lua_writeline() {}
+#endif
+
+/* print an error message */
+#if !defined(lua_writestringerror)
+#define lua_writestringerror(s,p) {}
+#endif
+```
+
 ## License 
 
 Lua is free software and licensed under the MIT License by 
