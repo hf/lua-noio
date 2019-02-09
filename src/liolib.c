@@ -4,6 +4,7 @@
 ** See Copyright Notice in lua.h
 */
 
+
 #define liolib_c
 #define LUA_LIB
 
@@ -22,8 +23,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
-
-
+#if !defined(LUA_NOIO)
 
 /*
 ** Change this macro to accept other modes for 'fopen' besides
@@ -774,3 +774,4 @@ LUAMOD_API int luaopen_io (lua_State *L) {
   return 1;
 }
 
+#endif /* LUA_NOIO */

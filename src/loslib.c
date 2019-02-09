@@ -112,6 +112,8 @@ static time_t l_checktime (lua_State *L, int arg) {
 
 #include <unistd.h>
 
+#if !defined(LUA_NOIO)
+
 #define LUA_TMPNAMBUFSIZE	32
 
 #if !defined(LUA_TMPNAMTEMPLATE)
@@ -124,11 +126,17 @@ static time_t l_checktime (lua_State *L, int arg) {
         if (e != -1) close(e); \
         e = (e == -1); }
 
+#endif /* LUA_NOIO */
+
 #else				/* }{ */
+
+#if !defined(LUA_NOIO)
 
 /* ISO C definitions */
 #define LUA_TMPNAMBUFSIZE	L_tmpnam
 #define lua_tmpnam(b,e)		{ e = (tmpnam(b) == NULL); }
+
+#endif /* LUA_NOIO */
 
 #endif				/* } */
 
@@ -136,7 +144,7 @@ static time_t l_checktime (lua_State *L, int arg) {
 /* }================================================================== */
 
 
-
+#if !defined(LUA_NOIO)
 
 static int os_execute (lua_State *L) {
   const char *cmd = luaL_optstring(L, 1, NULL);
@@ -179,6 +187,7 @@ static int os_getenv (lua_State *L) {
   return 1;
 }
 
+#endif /* LUA_NOIO */
 
 static int os_clock (lua_State *L) {
   lua_pushnumber(L, ((lua_Number)clock())/(lua_Number)CLOCKS_PER_SEC);
@@ -369,6 +378,7 @@ static int os_setlocale (lua_State *L) {
   return 1;
 }
 
+#if !defined(LUA_NOIO)
 
 static int os_exit (lua_State *L) {
   int status;
@@ -382,19 +392,25 @@ static int os_exit (lua_State *L) {
   return 0;
 }
 
+#endif /* LUA_NOIO */
+
 
 static const luaL_Reg syslib[] = {
   {"clock",     os_clock},
   {"date",      os_date},
   {"difftime",  os_difftime},
+#if !defined(LUA_NOIO)
   {"execute",   os_execute},
   {"exit",      os_exit},
   {"getenv",    os_getenv},
   {"remove",    os_remove},
   {"rename",    os_rename},
+#endif /* LUA_NOIO */
   {"setlocale", os_setlocale},
   {"time",      os_time},
+#if !defined(LUA_NOIO)
   {"tmpname",   os_tmpname},
+#endif /* LUA_NOIO */
   {NULL, NULL}
 };
 

@@ -42,8 +42,11 @@ LUA_O=	lua.o
 LUAC_T=	luac
 LUAC_O=	luac.o
 
-ALL_O= $(BASE_O) $(LUA_O) $(LUAC_O)
-ALL_T= $(LUA_A) $(LUA_T) $(LUAC_T)
+NOIO_T = noio
+NOIO_O = noio.o
+
+ALL_O= $(BASE_O) $(NOIO_O)
+ALL_T= $(LUA_A) $(NOIO_T)
 ALL_A= $(LUA_A)
 
 # Targets start here.
@@ -64,6 +67,9 @@ $(LUA_T): $(LUA_O) $(LUA_A)
 
 $(LUAC_T): $(LUAC_O) $(LUA_A)
 	$(CC) -o $@ $(LDFLAGS) $(LUAC_O) $(LUA_A) $(LIBS)
+
+$(NOIO_T): $(NOIO_O) $(LUA_A)
+	$(CC) -o $@ $(LDFLAGS) $(NOIO_O) $(LUA_A) $(LIBS)
 
 clean:
 	$(RM) $(ALL_T) $(ALL_O)
@@ -181,6 +187,7 @@ ltable.o: ltable.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
 ltablib.o: ltablib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
 ltm.o: ltm.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
  llimits.h ltm.h lzio.h lmem.h ldo.h lstring.h lgc.h ltable.h lvm.h
+noio.o: noio.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
 lua.o: lua.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
 luac.o: luac.c lprefix.h lua.h luaconf.h lauxlib.h lobject.h llimits.h \
  lstate.h ltm.h lzio.h lmem.h lundump.h ldebug.h lopcodes.h

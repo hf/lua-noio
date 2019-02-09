@@ -23,6 +23,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#if !defined(LUA_NOIO)
 
 /*
 ** LUA_IGMARK is a mark to ignore all before it when building the
@@ -788,3 +789,4 @@ LUAMOD_API int luaopen_package (lua_State *L) {
   return 1;  /* return 'package' table */
 }
 
+#endif /* LUA_NOIO */

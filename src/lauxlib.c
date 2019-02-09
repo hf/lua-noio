@@ -230,6 +230,7 @@ LUALIB_API int luaL_error (lua_State *L, const char *fmt, ...) {
   return lua_error(L);
 }
 
+#if !defined(LUA_NOIO)
 
 LUALIB_API int luaL_fileresult (lua_State *L, int stat, const char *fname) {
   int en = errno;  /* calls to Lua API may change this value */
@@ -247,6 +248,8 @@ LUALIB_API int luaL_fileresult (lua_State *L, int stat, const char *fname) {
     return 3;
   }
 }
+
+#endif /* LUA_NOIO */
 
 
 #if !defined(l_inspectstat)	/* { */
@@ -270,6 +273,7 @@ LUALIB_API int luaL_fileresult (lua_State *L, int stat, const char *fname) {
 
 #endif				/* } */
 
+#if !defined(LUA_NOIO)
 
 LUALIB_API int luaL_execresult (lua_State *L, int stat) {
   const char *what = "exit";  /* type of termination */
@@ -286,6 +290,8 @@ LUALIB_API int luaL_execresult (lua_State *L, int stat) {
     return 3;  /* return true/nil,what,code */
   }
 }
+
+#endif /* LUA_NOIO */
 
 /* }====================================================== */
 
@@ -632,6 +638,8 @@ LUALIB_API void luaL_unref (lua_State *L, int t, int ref) {
 ** =======================================================
 */
 
+#if !defined(LUA_NOIO)
+
 typedef struct LoadF {
   int n;  /* number of pre-read characters */
   FILE *f;  /* file being read */
@@ -734,6 +742,8 @@ LUALIB_API int luaL_loadfilex (lua_State *L, const char *filename,
   lua_remove(L, fnameindex);
   return status;
 }
+
+#endif /* LUA_NOIO */
 
 
 typedef struct LoadS {

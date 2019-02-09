@@ -70,8 +70,12 @@ LUALIB_API int (luaL_error) (lua_State *L, const char *fmt, ...);
 LUALIB_API int (luaL_checkoption) (lua_State *L, int arg, const char *def,
                                    const char *const lst[]);
 
+#if !defined(LUA_NOIO)
+
 LUALIB_API int (luaL_fileresult) (lua_State *L, int stat, const char *fname);
 LUALIB_API int (luaL_execresult) (lua_State *L, int stat);
+
+#endif /* LUA_NOIO */
 
 /* predefined references */
 #define LUA_NOREF       (-2)
@@ -80,10 +84,14 @@ LUALIB_API int (luaL_execresult) (lua_State *L, int stat);
 LUALIB_API int (luaL_ref) (lua_State *L, int t);
 LUALIB_API void (luaL_unref) (lua_State *L, int t, int ref);
 
+#if !defined(LUA_NOIO)
+
 LUALIB_API int (luaL_loadfilex) (lua_State *L, const char *filename,
                                                const char *mode);
 
 #define luaL_loadfile(L,f)	luaL_loadfilex(L,f,NULL)
+
+#endif /* LUA_NOIO */
 
 LUALIB_API int (luaL_loadbufferx) (lua_State *L, const char *buff, size_t sz,
                                    const char *name, const char *mode);
@@ -126,8 +134,12 @@ LUALIB_API void (luaL_requiref) (lua_State *L, const char *modname,
 
 #define luaL_typename(L,i)	lua_typename(L, lua_type(L,(i)))
 
+#if !defined(LUA_NOIO)
+
 #define luaL_dofile(L, fn) \
 	(luaL_loadfile(L, fn) || lua_pcall(L, 0, LUA_MULTRET, 0))
+
+#endif /* LUA_NOIO */
 
 #define luaL_dostring(L, s) \
 	(luaL_loadstring(L, s) || lua_pcall(L, 0, LUA_MULTRET, 0))
@@ -187,6 +199,8 @@ LUALIB_API char *(luaL_buffinitsize) (lua_State *L, luaL_Buffer *B, size_t sz);
 ** after that initial structure).
 */
 
+#if !defined(LUA_NOIO)
+
 #define LUA_FILEHANDLE          "FILE*"
 
 
@@ -194,6 +208,8 @@ typedef struct luaL_Stream {
   FILE *f;  /* stream (NULL for incompletely created streams) */
   lua_CFunction closef;  /* to close stream (NULL for closed streams) */
 } luaL_Stream;
+
+#endif /* LUA_NOIO */
 
 /* }====================================================== */
 
@@ -218,6 +234,8 @@ LUALIB_API void (luaL_openlib) (lua_State *L, const char *libname,
 ** ===================================================================
 */
 
+#if !defined(LUA_NOIO)
+
 /* print a string */
 #if !defined(lua_writestring)
 #define lua_writestring(s,l)   fwrite((s), sizeof(char), (l), stdout)
@@ -233,6 +251,25 @@ LUALIB_API void (luaL_openlib) (lua_State *L, const char *libname,
 #define lua_writestringerror(s,p) \
         (fprintf(stderr, (s), (p)), fflush(stderr))
 #endif
+
+#else /* LUA_NOIO */
+
+/* print a string */
+#if !defined(lua_writestring)
+#define lua_writestring(s,l) {}
+#endif
+
+/* print a newline and flush the output */
+#if !defined(lua_writeline)
+#define lua_writeline() {}
+#endif
+
+/* print an error message */
+#if !defined(lua_writestringerror)
+#define lua_writestringerror(s,p) {}
+#endif
+
+#endif /* LUA_NOIO */
 
 /* }================================================================== */
 
