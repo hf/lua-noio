@@ -4,3 +4,6 @@
 *.a
 *.ghc
 *.phc
+src/noio
+src/lua
+src/luac
