@@ -56,8 +56,12 @@ struct lua_longjmp;  /* defined in ldo.c */
 ** is thread safe
 */
 #if !defined(l_signalT)
+#if !defined(LUA_NOIO)
 #include <signal.h>
 #define l_signalT	sig_atomic_t
+#else /* LUA_NOIO */
+#define l_signalT volatile unsigned int
+#endif /* LUA_NOIO */
 #endif
 
 
