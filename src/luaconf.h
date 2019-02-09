@@ -784,6 +784,11 @@
 
 #define LUA_NOIO
 
+#if defined(LUA_NOIO)
+#undef lua_getlocaledecpoint
+#define lua_getlocaledecpoint()		'.'
+#endif /* LUA_NOIO */
+
 
 
 #endif
