@@ -9,11 +9,12 @@
 
 #include "lprefix.h"
 
-
-#include <locale.h>
-#include <string.h>
-
 #include "lua.h"
+
+#if !defined(LUA_NOIO)
+#include <locale.h>
+#endif /* LUA_NOIO */
+#include <string.h>
 
 #include "lctype.h"
 #include "ldebug.h"

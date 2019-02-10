@@ -7,6 +7,7 @@
 #define ldblib_c
 #define LUA_LIB
 
+
 #include "lprefix.h"
 
 
@@ -19,6 +20,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#if !defined(LUA_NOIO)
 
 /*
 ** The hook table at registry[&HOOKKEY] maps threads to their current
@@ -448,9 +450,12 @@ static const luaL_Reg dblib[] = {
   {NULL, NULL}
 };
 
+#endif /* LUA_NOIO */
 
 LUAMOD_API int luaopen_debug (lua_State *L) {
+#if !defined(LUA_NOIO)
   luaL_newlib(L, dblib);
+#endif /* LUA_NOIO */
   return 1;
 }
 

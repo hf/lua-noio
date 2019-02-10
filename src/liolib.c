@@ -13,8 +13,10 @@
 
 #include <ctype.h>
 #include <errno.h>
+#if !defined(LUA_NOIO)
 #include <locale.h>
 #include <stdio.h>
+#endif /* LUA_NOIO */
 #include <stdlib.h>
 #include <string.h>
 
