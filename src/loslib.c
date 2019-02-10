@@ -369,6 +369,7 @@ static int os_difftime (lua_State *L) {
 
 /* }====================================================== */
 
+#if !defined(LUA_NOIO)
 
 static int os_setlocale (lua_State *L) {
   static const int cat[] = {LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY,
@@ -380,8 +381,6 @@ static int os_setlocale (lua_State *L) {
   lua_pushstring(L, setlocale(cat[op], l));
   return 1;
 }
-
-#if !defined(LUA_NOIO)
 
 static int os_exit (lua_State *L) {
   int status;
@@ -408,8 +407,8 @@ static const luaL_Reg syslib[] = {
   {"getenv",    os_getenv},
   {"remove",    os_remove},
   {"rename",    os_rename},
-#endif /* LUA_NOIO */
   {"setlocale", os_setlocale},
+#endif /* LUA_NOIO */
   {"time",      os_time},
 #if !defined(LUA_NOIO)
   {"tmpname",   os_tmpname},
