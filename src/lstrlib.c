@@ -13,13 +13,16 @@
 #include <ctype.h>
 #include <float.h>
 #include <limits.h>
-#include <locale.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "lua.h"
+
+#if !defined(LUA_NOIO)
+#include <locale.h>
+#endif /* LUA_NOIO */
 
 #include "lauxlib.h"
 #include "lualib.h"

@@ -11,12 +11,15 @@
 
 
 #include <errno.h>
-#include <locale.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
 #include "lua.h"
+
+#if !defined(LUA_NOIO)
+#include <locale.h>
+#endif /* LUA_NOIO */
 
 #include "lauxlib.h"
 #include "lualib.h"
