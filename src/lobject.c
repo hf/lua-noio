@@ -10,7 +10,6 @@
 #include "lprefix.h"
 
 
-#include <locale.h>
 #include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -18,6 +17,10 @@
 #include <string.h>
 
 #include "lua.h"
+
+#if !defined(LUA_NOIO)
+#include <locale.h>
+#endif /* LUA_NOIO */
 
 #include "lctype.h"
 #include "ldebug.h"
