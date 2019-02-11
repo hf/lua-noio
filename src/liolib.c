@@ -13,10 +13,6 @@
 
 #include <ctype.h>
 #include <errno.h>
-#if !defined(LUA_NOIO)
-#include <locale.h>
-#include <stdio.h>
-#endif /* LUA_NOIO */
 #include <stdlib.h>
 #include <string.h>
 
@@ -24,6 +20,11 @@
 
 #include "lauxlib.h"
 #include "lualib.h"
+
+#if !defined(LUA_NOIO)
+#include <locale.h>
+#include <stdio.h>
+#endif /* LUA_NOIO */
 
 #if !defined(LUA_NOIO)
 
@@ -768,8 +769,8 @@ static void createstdfile (lua_State *L, FILE *f, const char *k,
 #endif /* LUA_NOIO */
 
 LUAMOD_API int luaopen_io (lua_State *L) {
-  luaL_newlib(L, iolib);  /* new module */
 #if !defined(LUA_NOIO)
+  luaL_newlib(L, iolib);  /* new module */
   createmeta(L);
   /* create (and set) default files */
   createstdfile(L, stdin, IO_INPUT, "stdin");
