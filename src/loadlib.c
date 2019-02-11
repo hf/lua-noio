@@ -764,8 +764,10 @@ static void createclibstable (lua_State *L) {
   lua_rawsetp(L, LUA_REGISTRYINDEX, &CLIBS);  /* set CLIBS table in registry */
 }
 
+#endif /* LUA_NOIO */
 
 LUAMOD_API int luaopen_package (lua_State *L) {
+#if !defined(LUA_NOIO)
   createclibstable(L);
   luaL_newlib(L, pk_funcs);  /* create 'package' table */
   createsearcherstable(L);
@@ -786,7 +788,7 @@ LUAMOD_API int luaopen_package (lua_State *L) {
   lua_pushvalue(L, -2);  /* set 'package' as upvalue for next lib */
   luaL_setfuncs(L, ll_funcs, 1);  /* open lib into global table */
   lua_pop(L, 1);  /* pop global table */
+#endif /* LUA_NOIO */
   return 1;  /* return 'package' table */
 }
 
-#endif /* LUA_NOIO */

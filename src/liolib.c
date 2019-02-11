@@ -765,15 +765,17 @@ static void createstdfile (lua_State *L, FILE *f, const char *k,
   lua_setfield(L, -2, fname);  /* add file to module */
 }
 
+#endif /* LUA_NOIO */
 
 LUAMOD_API int luaopen_io (lua_State *L) {
   luaL_newlib(L, iolib);  /* new module */
+#if !defined(LUA_NOIO)
   createmeta(L);
   /* create (and set) default files */
   createstdfile(L, stdin, IO_INPUT, "stdin");
   createstdfile(L, stdout, IO_OUTPUT, "stdout");
   createstdfile(L, stderr, NULL, "stderr");
+#endif /* LUA_NOIO */
   return 1;
 }
 
-#endif /* LUA_NOIO */
